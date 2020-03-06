@@ -8,8 +8,12 @@ import UdaciFitnessCalendar from 'udacifitness-calendar'
 import { white } from '../utils/colors'
 import DateHeader from './DateHeader'
 import MetricCard from './MetricCard'
+import { AppLoading } from 'expo'
 
 class History extends Component {
+    state = {
+        ready: false,
+    }
     componentDidMount() {
         const { dispatch } = this.props
 
@@ -30,7 +34,7 @@ class History extends Component {
             {today
                 ? <View>
                     <DateHeader date={formattedDate} />
-                    <Text style={styles.noDataText}>
+                    <Text style={styles.noDateText}>
                         {today}
                     </Text>
                 </View>
@@ -46,7 +50,7 @@ class History extends Component {
         return (
             <View style={styles.item}>
                 <DateHeader date={formattedDate} />
-                <Text style={styles.noDataText}>
+                <Text style={styles.noDateText}>
                     You didn't log any data on this day.
             </Text>
             </View>
@@ -55,7 +59,11 @@ class History extends Component {
 
     render() {
         const { entries } = this.props
+        const { ready } = this.state
 
+        if (ready === false) {
+            return <AppLoading />
+        }
         return (
             <UdaciFitnessCalendar
                 items={entries}
@@ -83,7 +91,7 @@ const styles = StyleSheet.create({
             height: 3
         },
     },
-    noDataText: {
+    noDateText: {
         fontSize: 20,
         paddingTop: 20,
         paddingBottom: 20
