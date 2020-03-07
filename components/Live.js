@@ -10,7 +10,7 @@ export default class Live extends Component {
     state = {
         coords: null,
         status: null,
-        status: 'granted',
+        status: null,
         direction: ''
     }
     askPermission = () => {
@@ -46,7 +46,6 @@ export default class Live extends Component {
             distanceInterval: 1
         }, ({ coords }) => {
             const newDirection = calculateDirection(coords.heading)
-            const { direction } = this.state
 
             this.setState({
                 coords,
@@ -98,7 +97,7 @@ export default class Live extends Component {
                         You're heading
                     </Text>
                     <Text style={styles.direction}>
-                        North
+                        {direction}
                     </Text>
                 </View>
                 <View style={styles.metricContainer}>
@@ -107,7 +106,7 @@ export default class Live extends Component {
                             Altitude
                         </Text>
                         <Text style={[styles.subHeader, { color: white }]}>
-                            {200} feet
+                            {Math.round(coords.altitude * 3.2808)} Feet
                         </Text>
                     </View>
                     <View style={styles.metric}>
@@ -115,7 +114,7 @@ export default class Live extends Component {
                             Speed
                         </Text>
                         <Text style={[styles.subHeader, { color: white }]}>
-                            {300} MPH
+                            {(coords.speed * 2.2369).toFixed(1)} MPH
                         </Text>
                     </View>
                 </View>
