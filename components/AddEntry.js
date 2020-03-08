@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, Platform, StyleSheet } from 'react-native';
 import {
     getMetricMetaInfo,
+    getDetailsReminderValue,
     timeToString,
-    getDailyReminderValue
+    clearLocalNotification,
+    setLocalNotification
 } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
@@ -81,7 +83,8 @@ class AddEntry extends Component {
 
         submitEntry({ key, entry });
 
-        // Clear local notification
+        clearLocalNotification()
+            .then(setLocalNotification)
     }
 
     reset = () => {
@@ -95,7 +98,7 @@ class AddEntry extends Component {
         this.toHome()
         removeEntry(key)
     }
-    
+
     toHome = () => {
         this.props.navigation.dispatch(NavigationActions.back({
             key: 'AddEntry'
